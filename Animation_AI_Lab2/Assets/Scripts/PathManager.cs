@@ -8,6 +8,10 @@ public class PathManager : MonoBehaviour
 [HideInInspector]
     [SerializeField] public List<Waypoint> path;
 
+    public GameObject prefab;
+    int currentPointIndex = 0;
+
+    public List<GameObject> prefabPoints;
     public List<Waypoint> GetPath()
     {
         if (path == null)
@@ -20,6 +24,13 @@ public class PathManager : MonoBehaviour
     {
         Waypoint go = new Waypoint();
         path.Add(go);
+    }
+
+    public Waypoint GetNextTarget()
+    {
+        int nextPointIndex = (currentPointIndex + 1) % (path.Count);
+        currentPointIndex = nextPointIndex;
+        return path[nextPointIndex];
     }
 
 }

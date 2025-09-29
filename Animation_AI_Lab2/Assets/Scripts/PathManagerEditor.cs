@@ -59,6 +59,12 @@ public class PathManagerEditor : Editor
                 EditorGUILayout.BeginHorizontal();
                 Waypoint p = thePath[i];
 
+
+                Color c = GUI.color;
+
+                if (selectedPoint == p) GUI.color = Color.green;
+
+
                 Vector3 oldPos = p.GetPos();
                 Vector3 newPos = EditorGUILayout.Vector3Field("", oldPos);
 
@@ -69,6 +75,7 @@ public class PathManagerEditor : Editor
                     toDelete.Add(i);
                 }
 
+                GUI.color = c;
                 EditorGUILayout.EndHorizontal();
 
             }
@@ -83,7 +90,69 @@ public class PathManagerEditor : Editor
 
     public void DrawPath(List<Waypoint> path)
     {
+        if (path != null)
+        {
+            int current = 0;
 
+            foreach (Waypoint wp in path)
+            {
+                doRepaint = DrawPoint(wp);
+                int next = (current + 1) % path.Count;
+                Waypoint wpnext = path[next];
+
+                DrawPathLine(wp, wpnext);
+
+                current += 1;
+            }
+        }
+
+        if (doRepaint) Repaint();
+    }
+
+    public void DrawPathLine(Waypoint p1, Waypoint p2)
+    {
+        Color c = Handles.color;
+        Handles.color = Color.grey;
+        Handles.DrawLine(p1.GetPos(), p2.GetPos());
+        Handles.color = c;
+    }
+
+    public bool DrawPoint(Waypoint p)
+    {
+        bool isChanged = false;
+        
+        if (selectedPoint == p)
+        {
+            Color c = Handles.color;
+            Handles.color = Color.green;
+
+            EditorGUI.BeginChangeCheck();
+            Vector3 oldpos = p.GetPos();
+            Vector3 newPos = Handles.PositionHandle(oldpos, Quaternion.identity);
+
+            float handleSize = HandleUtility.GetHandleSize(newPos);
+
+            Handles.SphereHandleCap(-1, newPos, Quaternion.identity, 0.25f * handleSize, EventType.Repaint);
+            if(EditorGUI.EndChangeCheck())
+            {
+                p.SetPos(newPos);
+            }
+
+            Handles.color = c;
+        }
+        else
+        {
+            Vector3 currPos = p.GetPos();
+            float handleSize = HandleUtility.GetHandleSize(currPos);
+            if(Handles.Button(currPos, Quaternion.identity, 0.25f*handleSize, 0.25f * handleSize, Handles.SphereHandleCap))
+            {
+                isChanged = true;
+                selectedPoint = p;
+            }
+        }
+
+
+        return isChanged;
     }
 
 }
