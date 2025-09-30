@@ -324,8 +324,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pathManager: {fileID: 1922692641}
-  MoveSpeed: 5
+  MoveSpeed: 1
   RotateSpeed: 5
+  animator: {fileID: 432663576}
 --- !u!54 &432663574
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -376,6 +377,11 @@ CapsuleCollider:
   m_Height: 2.5
   m_Direction: 1
   m_Center: {x: 0.04, y: 0.72, z: 0}
+--- !u!95 &432663576 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 95922273507661854, guid: c20397bf1592dc040b827e8716b0bd41, type: 3}
+  m_PrefabInstance: {fileID: 360534760}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0

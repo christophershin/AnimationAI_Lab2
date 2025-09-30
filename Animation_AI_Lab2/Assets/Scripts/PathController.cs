@@ -14,8 +14,13 @@ public class PathController : MonoBehaviour
     public float MoveSpeed;
     public float RotateSpeed;
 
+    public Animator animator;
+    bool isWalking;
+
     void Start()
     {
+        isWalking = false;
+        animator.SetBool("isWalking", isWalking);
         thePath = pathManager.GetPath();
         if (thePath != null && thePath.Count >0)
         {
@@ -53,7 +58,17 @@ public class PathController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        rotateTowardsTarget();
-        moveForward();
+
+        if(Input.anyKeyDown)
+        {
+            isWalking = !isWalking;
+            animator.SetBool("isWalking", isWalking);
+
+        }
+        if (isWalking)
+        {
+            rotateTowardsTarget();
+            moveForward();
+        }
     }
 }
