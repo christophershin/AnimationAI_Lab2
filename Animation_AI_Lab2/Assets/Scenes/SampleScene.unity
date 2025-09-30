@@ -325,7 +325,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pathManager: {fileID: 1922692641}
   MoveSpeed: 1
-  RotateSpeed: 5
+  RotateSpeed: 4
   animator: {fileID: 432663576}
 --- !u!54 &432663574
 Rigidbody:
